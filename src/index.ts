@@ -94,28 +94,35 @@ export function generateLlmsTxt(options: PluginOptions) {
 
 	const llmsTxt = sections
 		.map((section) => {
-			const { title, description, details, links } = section;
-			let markdown = `# ${title}`;
-			if (description) {
-				markdown += "\n\n";
-				markdown += `> ${description.split("\n").join("\n> ")}`;
+			const { title } = section;
+			const isSection = "links" in section;
+			let markdown = `#${isSection ? "#" : ""} ${title}`;
+			if (!isSection) {
+				const { description, details } = section;
+				if (description) {
+					markdown += "\n\n";
+					markdown += `> ${description.split("\n").join("\n> ")}`;
+				}
+				if (details) {
+					markdown += "\n\n";
+					markdown += details;
+				}
 			}
-			if (details) {
-				markdown += "\n\n";
-				markdown += details;
-			}
-			if (links.length > 0) {
-				markdown += "\n\n";
-				markdown += links
-					.map((link) => {
-						const { title, url, description } = link;
-						let value = `- [${title}](${url})`;
-						if (description) {
-							value += `: ${description}`;
-						}
-						return value;
-					})
-					.join("\n");
+			if (isSection) {
+				const { links } = section;
+				if (links.length > 0) {
+					markdown += "\n\n";
+					markdown += links
+						.map((link) => {
+							const { title, url, description } = link;
+							let value = `- [${title}](${url})`;
+							if (description) {
+								value += `: ${description}`;
+							}
+							return value;
+						})
+						.join("\n");
+				}
 			}
 			return markdown;
 		})

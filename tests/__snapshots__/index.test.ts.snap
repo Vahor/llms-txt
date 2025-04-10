@@ -11,15 +11,11 @@ exports[`generate llms.txt should generate llms.txt 1`] = `
 
 Test details
 
+## Second test
+
 - [Test link](https://test.com): Test link description
 
-# Second test
-
-> Second test description
-
-# Third test
-
-Third test details
+## Third test
 
 - [Third test link](https://third.test.com)"
 ,

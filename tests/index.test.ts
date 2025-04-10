@@ -32,6 +32,9 @@ const options = {
 			title: "Test",
 			description: "Test description",
 			details: "Test details",
+		},
+		{
+			title: "Second test",
 			links: [
 				{
 					title: "Test link",
@@ -39,11 +42,6 @@ const options = {
 					description: "Test link description",
 				},
 			],
-		},
-		{
-			title: "Second test",
-			description: "Second test description",
-			links: [],
 		},
 		{
 			title: "Third test",
