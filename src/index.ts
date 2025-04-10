@@ -21,7 +21,7 @@ export interface PluginOptions {
 	 * Or `LLMS_TXT_OUTPUT_DIR_INPUT` for the llms.txt file.
 	 * Return `null` to ignore the file.
 	 * */
-	outputPath: (path: string | null) => string | null;
+	outputPath: (path: string) => string | null;
 
 	/**
 	 * Custom `fs` implementation.
