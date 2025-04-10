@@ -29,7 +29,8 @@
 		"bun-plugin-dts": "^0.3.0",
 		"husky": "^9.1.7",
 		"lint-staged": "^15.5.0",
-		"pkg-pr-new": "^0.0.42"
+		"pkg-pr-new": "^0.0.42",
+		"unist-util-visit": "^5.0.0"
 	},
 	"peerDependencies": {
 		"typescript": "^5"
@@ -47,6 +48,9 @@
 		"access": "public"
 	},
 	"dependencies": {
-		"yaml": "^2.7.1"
+		"remark-parse": "^11",
+		"remark-stringify": "^11",
+		"unified": "^11",
+		"yaml": "^2.7"
 	}
 }

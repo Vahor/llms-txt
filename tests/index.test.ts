@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, mock, test } from "bun:test";
 import fs from "node:fs";
+// Test dependencies
+import { visit } from "unist-util-visit";
 import {
 	LLMS_TXT_OUTPUT_DIR_INPUT,
 	type PluginOptions,
@@ -45,7 +47,6 @@ const options = {
 		},
 		{
 			title: "Third test",
-			details: "Third test details",
 			links: [
 				{
 					title: "Third test link",
@@ -120,5 +121,33 @@ describe("generate markdown files", () => {
 			outputPath: () => null,
 		});
 		expect(options.fs.writeFileSync).not.toHaveBeenCalled();
+	});
+	test("should transform using remarkPlugins", () => {
+		function remarkAddPrefix() {
+			// biome-ignore lint/suspicious/noExplicitAny: don't care
+			return (tree: any) => {
+				visit(tree, "paragraph", (node) => {
+					const text = node.children[0].value;
+					if (text === "TRANSFORM_THIS") {
+						node.children[0].value = "NICE_TRANSFORMATION";
+					}
+					return node;
+				});
+				return tree;
+			};
+		}
+
+		// @ts-expect-error
+		generate({
+			...options,
+			outputPath: disableLlmsOutputPath,
+			remarkPlugins: [remarkAddPrefix],
+		});
+		expect(options.fs.writeFileSync).toHaveBeenCalledTimes(1);
+		expect(options.fs.writeFileSync).toHaveBeenCalledWith(
+			"/out/tests/example-content.mdx",
+			expect.stringContaining("NICE\\_TRANSFORMATION"),
+		);
+		expect(options.fs.writeFileSync.mock.results).toMatchSnapshot();
 	});
 });

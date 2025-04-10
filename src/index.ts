@@ -1,4 +1,7 @@
 import path from "node:path";
+import remarkParse from "remark-parse";
+import remarkStringify from "remark-stringify";
+import { type Pluggable, unified } from "unified";
 import { parse, stringify } from "yaml";
 
 export const LLMS_TXT_OUTPUT_DIR_INPUT = "llms.txt";
@@ -47,6 +50,12 @@ export interface PluginOptions {
 	 * Based on this format [https://llmstxt.org/#format](https://llmstxt.org/#format)
 	 */
 	sections: [LLMSTxtHeader, ...LLMSTxtSection[]];
+
+	/**
+	 * Plugins to transform the markdown content.
+	 * See [https://unifiedjs.com/learn/guide/](https://unifiedjs.com/learn/guide/)
+	 */
+	remarkPlugins?: Pluggable[];
 }
 
 const FRONTMATTER_REGEX = /^---\s*\n([\s\S]*?)\n---\s*\n/;
@@ -59,15 +68,17 @@ function extractFrontmatter(raw: string) {
 	return parse(rows);
 }
 
-function replaceFrontmatter(raw: string, frontmatter: Record<string, unknown>) {
-	return raw.replace(
-		FRONTMATTER_REGEX,
-		`---\n${stringify(frontmatter)}---\n\n`,
-	);
+function removeFrontmatter(raw: string) {
+	return raw.replace(FRONTMATTER_REGEX, "");
 }
 
 export function generateMarkdownFiles(options: PluginOptions) {
-	const { outputPath, content, formatFrontmatter = (p) => p } = options;
+	const {
+		outputPath,
+		content,
+		formatFrontmatter = (p) => p,
+		remarkPlugins,
+	} = options;
 	const fs = getFs(options);
 
 	for (const { path: contentPath } of content) {
@@ -77,7 +88,18 @@ export function generateMarkdownFiles(options: PluginOptions) {
 		}
 		const raw = fs.readFileSync(contentPath, "utf-8");
 		const frontmatter = formatFrontmatter(extractFrontmatter(raw));
-		const markdown = replaceFrontmatter(raw, frontmatter);
+		let markdown = removeFrontmatter(raw);
+
+		if (remarkPlugins) {
+			const processor = unified()
+				.use(remarkParse)
+				.use(remarkPlugins)
+				.use(remarkStringify);
+			const result = processor.processSync(markdown);
+			markdown = result.toString();
+		}
+
+		markdown = `---\n${stringify(frontmatter)}---\n\n${markdown}`;
 
 		const dirname = path.dirname(outputPathResult);
 		fs.mkdirSync(dirname, { recursive: true });
