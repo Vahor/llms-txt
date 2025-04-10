@@ -1,0 +1,28 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generate llms.txt should generate llms.txt 1`] = `
+[
+  {
+    "type": "return",
+    "value": 
+"# Test
+
+> Test description
+
+Test details
+
+- [Test link](https://test.com): Test link description
+
+# Second test
+
+> Second test description
+
+# Third test
+
+Third test details
+
+- [Third test link](https://third.test.com)"
+,
+  },
+]
+`;

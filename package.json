@@ -1,0 +1,50 @@
+{
+	"name": "@vahor/llms-txt",
+	"version": "0.0.0",
+	"description": "A simple script to generate llms.txt files.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Vahor/llms-txt.git"
+	},
+	"module": "index.ts",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"main": "./dist/index.cjs",
+	"private": false,
+	"files": ["dist"],
+	"author": {
+		"email": "me@vahor.fr"
+	},
+	"keywords": ["contentlayer", "llms.txt"],
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@changesets/changelog-github": "^0.5.1",
+		"@types/bun": "latest",
+		"bun-plugin-dts": "^0.3.0",
+		"contentlayer2": "^0.5.5",
+		"husky": "^9.1.7",
+		"lint-staged": "^15.5.0",
+		"pkg-pr-new": "^0.0.42"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"scripts": {
+		"prepare": "husky",
+		"build": "bun run build.ts",
+		"format": "bunx @biomejs/biome check ./ --write",
+		"typecheck": "tsc --noEmit --declaration"
+	},
+	"lint-staged": {
+		"*": ["biome check --no-errors-on-unmatched --files-ignore-unknown=true"]
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}
