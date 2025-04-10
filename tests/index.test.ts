@@ -3,13 +3,13 @@ import fs from "node:fs";
 // Test dependencies
 import { visit } from "unist-util-visit";
 import {
-	LLMS_TXT_OUTPUT_DIR_INPUT,
+	LLMS_TXT_FILENAME,
 	type PluginOptions,
 	generate,
 } from "../src/index.ts";
 
 const disableLlmsOutputPath = (path: string | null) => {
-	if (path === LLMS_TXT_OUTPUT_DIR_INPUT) {
+	if (path === LLMS_TXT_FILENAME) {
 		return null;
 	}
 	return `/out/${path}`;
