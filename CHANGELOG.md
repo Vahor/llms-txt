@@ -1,5 +1,11 @@
 # @vahor/llms-txt
 
+## 0.0.2
+
+### Patch Changes
+
+- [#3](https://github.com/Vahor/llms-txt/pull/3) [`ea6d880`](https://github.com/Vahor/llms-txt/commit/ea6d8809651c8c67a3bcb1f05172211a1ddc75ca) Thanks [@Vahor](https://github.com/Vahor)! - rename LLMS_TXT_FILENAME var
+
 ## 0.0.1
 
 ### Patch Changes

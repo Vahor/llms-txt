@@ -1,6 +1,6 @@
 {
 	"name": "@vahor/llms-txt",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "A simple script to generate llms.txt and .md files from your content.",
 	"license": "MIT",
 	"repository": {
@@ -17,11 +17,15 @@
 	},
 	"main": "./dist/index.cjs",
 	"private": false,
-	"files": ["dist"],
+	"files": [
+		"dist"
+	],
 	"author": {
 		"email": "me@vahor.fr"
 	},
-	"keywords": ["llms.txt"],
+	"keywords": [
+		"llms.txt"
+	],
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"@changesets/changelog-github": "^0.5.1",
@@ -42,7 +46,9 @@
 		"typecheck": "tsc --noEmit --declaration"
 	},
 	"lint-staged": {
-		"*": ["biome check --no-errors-on-unmatched --files-ignore-unknown=true"]
+		"*": [
+			"biome check --no-errors-on-unmatched --files-ignore-unknown=true"
+		]
 	},
 	"publishConfig": {
 		"access": "public"
