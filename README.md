@@ -48,7 +48,7 @@ const options = {
 			title: "Blog",
 			links: allDocuments.map((doc) => ({
 				title: doc.title,
-				url: `https://example.com/${doc.pageType}/${doc.slug}.md`,
+				url: `https://vahor.fr/${doc.pageType}/${doc.slug}.md`,
 				description: doc.description,
 			})),
 		},
@@ -82,7 +82,7 @@ In this blog I will write about stuff
 
 ## Blog
 
-- [Rehype D2 Plugin](https://example.com/project/rehype-d2.md): Un plugin Rehype pour convertir des diagrammes D2 en SVG ou PNG.
+- [Rehype D2 Plugin](https://vahor.fr/project/rehype-d2.md): Un plugin Rehype pour convertir des diagrammes D2 en SVG ou PNG.
 ```
 
 ```md title="public/project/rehype-d2.md"
