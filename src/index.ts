@@ -3,6 +3,17 @@ import { parse, stringify } from "yaml";
 
 export const LLMS_TXT_OUTPUT_DIR_INPUT = "llms.txt";
 
+export interface LLMSTxtSection {
+	title: string;
+	links: { title: string; url: string; description?: string }[];
+}
+
+export interface LLMSTxtHeader {
+	title: string;
+	description?: string;
+	details?: string;
+}
+
 export interface PluginOptions {
 	/**
 	 * The path where the files will be written.
@@ -33,14 +44,9 @@ export interface PluginOptions {
 
 	/**
 	 * Will generate sections for the llm.txt file.
-	 * Based on this format [https://github.com/AnswerDotAI/llms-txt#format](https://github.com/AnswerDotAI/llms-txt#format)
+	 * Based on this format [https://llmstxt.org/#format](https://llmstxt.org/#format)
 	 */
-	sections: {
-		title: string;
-		description?: string;
-		details?: string;
-		links: { title: string; url: string; description?: string }[];
-	}[];
+	sections: [LLMSTxtHeader, ...LLMSTxtSection[]];
 }
 
 const FRONTMATTER_REGEX = /^---\s*\n([\s\S]*?)\n---\s*\n/;
@@ -60,7 +66,7 @@ function replaceFrontmatter(raw: string, frontmatter: Record<string, unknown>) {
 	);
 }
 
-function generateMarkdownFiles(options: PluginOptions) {
+export function generateMarkdownFiles(options: PluginOptions) {
 	const { outputPath, content, formatFrontmatter = (p) => p } = options;
 	const fs = getFs(options);
 
@@ -79,7 +85,7 @@ function generateMarkdownFiles(options: PluginOptions) {
 	}
 }
 
-function generateLlmsTxt(options: PluginOptions) {
+export function generateLlmsTxt(options: PluginOptions) {
 	const { outputPath, sections } = options;
 	const outputPathResult = outputPath(LLMS_TXT_OUTPUT_DIR_INPUT);
 	if (outputPathResult == null) {
@@ -126,9 +132,7 @@ function getFs(options: PluginOptions): NonNullable<PluginOptions["fs"]> {
 	return options.fs ?? require("node:fs");
 }
 
-function entryPoint(options: PluginOptions) {
+export function generate(options: PluginOptions) {
 	generateMarkdownFiles(options);
 	generateLlmsTxt(options);
 }
-
-export default entryPoint;

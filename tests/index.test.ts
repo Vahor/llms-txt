@@ -1,8 +1,9 @@
 import { beforeEach, describe, expect, mock, test } from "bun:test";
 import fs from "node:fs";
-import generateLlmsTxt, {
+import {
 	LLMS_TXT_OUTPUT_DIR_INPUT,
 	type PluginOptions,
+	generate,
 } from "../src/index.ts";
 
 const disableLlmsOutputPath = (path: string | null) => {
@@ -70,7 +71,7 @@ beforeEach(() => {
 describe("generate llms.txt", () => {
 	test("should generate llms.txt", () => {
 		// @ts-expect-error
-		generateLlmsTxt({ ...options, content: [] });
+		generate({ ...options, content: [] });
 		expect(options.fs.writeFileSync).toHaveBeenCalledTimes(1);
 		expect(options.fs.writeFileSync).toHaveBeenCalledWith(
 			"/out/llms.txt",
@@ -80,7 +81,7 @@ describe("generate llms.txt", () => {
 	});
 	test("should skip llms.txt generation", () => {
 		// @ts-expect-error
-		generateLlmsTxt({
+		generate({
 			...options,
 			content: [],
 			outputPath: disableLlmsOutputPath,
@@ -92,13 +93,13 @@ describe("generate llms.txt", () => {
 describe("generate markdown files", () => {
 	test("should generate markdown files", () => {
 		// @ts-expect-error
-		generateLlmsTxt({ ...options, outputPath: disableLlmsOutputPath });
+		generate({ ...options, outputPath: disableLlmsOutputPath });
 		expect(options.fs.writeFileSync).toHaveBeenCalledTimes(1);
 		expect(options.fs.writeFileSync.mock.results).toMatchSnapshot();
 	});
 	test("should generate markdown files with custom frontmatter", () => {
 		// @ts-expect-error
-		generateLlmsTxt({
+		generate({
 			...options,
 			outputPath: disableLlmsOutputPath,
 			formatFrontmatter: (frontmatter) => ({
@@ -115,7 +116,7 @@ describe("generate markdown files", () => {
 	});
 	test("should skip markdown files generation", () => {
 		// @ts-expect-error
-		generateLlmsTxt({
+		generate({
 			...options,
 			content: [],
 			outputPath: () => null,
