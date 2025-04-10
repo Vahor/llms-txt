@@ -38,7 +38,13 @@ sidebar:
 
 # Test
 
-Test description
+Some content we want to transform.
+
+TRANSFORM_THIS
+
+---
+title: This should not be replaced
+---
 
 
 \`\`\`js
@@ -62,8 +68,46 @@ description: Test description
 
 # Test
 
-Test description
+Some content we want to transform.
 
+TRANSFORM_THIS
+
+---
+title: This should not be replaced
+---
+
+
+\`\`\`js
+console.log("Hello, world!");
+\`\`\`
+"
+,
+  },
+]
+`;
+
+exports[`generate markdown files should transform using remarkPlugins 1`] = `
+[
+  {
+    "type": "return",
+    "value": 
+"---
+title: Test
+description: Test description
+sidebar:
+  order: 1
+  title: Custom sidebar title
+---
+
+# Test
+
+Some content we want to transform.
+
+NICE\\_TRANSFORMATION
+
+***
+
+## title: This should not be replaced
 
 \`\`\`js
 console.log("Hello, world!");

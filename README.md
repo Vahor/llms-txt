@@ -45,10 +45,10 @@ const options = {
 			details: "In this blog I will write about stuff",
 		},
 		{
-			title: "Articles",
+			title: "Blog",
 			links: allDocuments.map((doc) => ({
 				title: doc.title,
-				url: `/${doc.pageType}/${doc.slug}`,
+				url: `https://example.com/${doc.pageType}/${doc.slug}.md`,
 				description: doc.description,
 			})),
 		},
@@ -80,9 +80,9 @@ This will generate a `llms.txt` file in the `public` folder and a `.md` file for
 
 In this blog I will write about stuff
 
-## Articles
+## Blog
 
-- [Rehype D2 Plugin](/project/rehype-d2): Un plugin Rehype pour convertir des diagrammes D2 en SVG ou PNG.
+- [Rehype D2 Plugin](https://example.com/project/rehype-d2.md): Un plugin Rehype pour convertir des diagrammes D2 en SVG ou PNG.
 ```
 
 ```md title="public/project/rehype-d2.md"
@@ -95,3 +95,33 @@ tldr: [https://github.com/Vahor/rehype-d2](https://github.com/Vahor/rehype-d2)
 
 ...
 ```
+
+### Options
+
+- `outputPath`: Function that determines where files will be written.
+  - Takes the current MDX file path as argument and returns the output path.
+  - Return `null` to ignore a file.
+  - Use `LLMS_TXT_OUTPUT_DIR_INPUT` constant for the llms.txt file.
+
+- `fs`: Custom filesystem implementation.
+  - Must include `writeFileSync`, `mkdirSync`, and `readFileSync` methods.
+  - Defaults to Node's built-in `fs` module if not provided.
+
+- `formatFrontmatter`: Function to filter or transform frontmatter properties before writing to `.md` files.
+  - Defaults to an identity function if not provided.
+
+- `content`: Array of content paths to process.
+  - Each item should be an object with a `path` property.
+
+- `sections`: Array containing a header and sections for the llms.txt file.
+  - First item is the header and contains `{ title: string, description?: string, details?: string }`.
+  - Subsequent items are sections with `{ title: string, links: { title: string, url: string, description?: string }[] }`.
+  - Structured as `[LLMSTxtHeader, ...LLMSTxtSection[]]`.
+
+- `remarkPlugins`: Array of remark plugins to transform markdown content.
+  - See [Unified.js guide](https://unifiedjs.com/learn/guide/) for more information.
+  - Optional parameter.
+
+# Who is using this?
+
+- [vahor.fr](https://github.com/Vahor/vahor.fr): my personal website
