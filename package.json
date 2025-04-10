@@ -1,6 +1,6 @@
 {
 	"name": "@vahor/llms-txt",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "A simple script to generate llms.txt and .md files from your content.",
 	"license": "MIT",
 	"repository": {
