@@ -1,17 +1,29 @@
 import { beforeEach, describe, expect, mock, test } from "bun:test";
+import fs from "node:fs";
 import generateLlmsTxt, {
 	LLMS_TXT_OUTPUT_DIR_INPUT,
 	type PluginOptions,
 } from "../src/index.ts";
 
+const disableLlmsOutputPath = (path: string | null) => {
+	if (path === LLMS_TXT_OUTPUT_DIR_INPUT) {
+		return null;
+	}
+	return `/out/${path}`;
+};
+
 const options = {
-	outputDir: (path) => `tests/${path}`,
+	outputPath: (path) => `/out/${path}`,
 	fs: {
 		writeFileSync: mock((path, content) => {
 			return content;
 		}),
 		mkdirSync: mock((path) => {
 			return path;
+		}),
+		// @ts-expect-error
+		readFileSync: mock((path, encoding) => {
+			return fs.readFileSync(path, "utf-8");
 		}),
 	},
 	sections: [
@@ -43,7 +55,11 @@ const options = {
 			],
 		},
 	],
-	content: [],
+	content: [
+		{
+			path: "tests/example-content.mdx",
+		},
+	],
 } satisfies PluginOptions;
 
 beforeEach(() => {
@@ -53,24 +69,56 @@ beforeEach(() => {
 
 describe("generate llms.txt", () => {
 	test("should generate llms.txt", () => {
+		// @ts-expect-error
 		generateLlmsTxt({ ...options, content: [] });
 		expect(options.fs.writeFileSync).toHaveBeenCalledTimes(1);
 		expect(options.fs.writeFileSync).toHaveBeenCalledWith(
-			"tests/llms.txt",
+			"/out/llms.txt",
 			expect.stringContaining("# Test"),
 		);
 		expect(options.fs.writeFileSync.mock.results).toMatchSnapshot();
 	});
 	test("should skip llms.txt generation", () => {
+		// @ts-expect-error
 		generateLlmsTxt({
 			...options,
 			content: [],
-			outputDir: (path) => {
-				if (path === LLMS_TXT_OUTPUT_DIR_INPUT) {
-					return null;
-				}
-				return path;
-			},
+			outputPath: disableLlmsOutputPath,
+		});
+		expect(options.fs.writeFileSync).not.toHaveBeenCalled();
+	});
+});
+
+describe("generate markdown files", () => {
+	test("should generate markdown files", () => {
+		// @ts-expect-error
+		generateLlmsTxt({ ...options, outputPath: disableLlmsOutputPath });
+		expect(options.fs.writeFileSync).toHaveBeenCalledTimes(1);
+		expect(options.fs.writeFileSync.mock.results).toMatchSnapshot();
+	});
+	test("should generate markdown files with custom frontmatter", () => {
+		// @ts-expect-error
+		generateLlmsTxt({
+			...options,
+			outputPath: disableLlmsOutputPath,
+			formatFrontmatter: (frontmatter) => ({
+				title: frontmatter.title,
+				description: frontmatter.description,
+			}),
+		});
+		expect(options.fs.writeFileSync).toHaveBeenCalledTimes(1);
+		expect(options.fs.writeFileSync).toHaveBeenCalledWith(
+			"/out/tests/example-content.mdx",
+			expect.stringContaining("# Test"),
+		);
+		expect(options.fs.writeFileSync.mock.results).toMatchSnapshot();
+	});
+	test("should skip markdown files generation", () => {
+		// @ts-expect-error
+		generateLlmsTxt({
+			...options,
+			content: [],
+			outputPath: () => null,
 		});
 		expect(options.fs.writeFileSync).not.toHaveBeenCalled();
 	});

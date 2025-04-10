@@ -26,3 +26,54 @@ Third test details
   },
 ]
 `;
+
+exports[`generate markdown files should generate markdown files 1`] = `
+[
+  {
+    "type": "return",
+    "value": 
+"---
+title: Test
+description: Test description
+sidebar:
+  order: 1
+  title: Custom sidebar title
+---
+
+# Test
+
+Test description
+
+
+\`\`\`js
+console.log("Hello, world!");
+\`\`\`
+"
+,
+  },
+]
+`;
+
+exports[`generate markdown files should generate markdown files with custom frontmatter 1`] = `
+[
+  {
+    "type": "return",
+    "value": 
+"---
+title: Test
+description: Test description
+---
+
+# Test
+
+Test description
+
+
+\`\`\`js
+console.log("Hello, world!");
+\`\`\`
+"
+,
+  },
+]
+`;
