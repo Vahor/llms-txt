@@ -4,7 +4,7 @@ import remarkStringify from "remark-stringify";
 import { type Pluggable, unified } from "unified";
 import { parse, stringify } from "yaml";
 
-export const LLMS_TXT_OUTPUT_DIR_INPUT = "llms.txt";
+export const LLMS_TXT_FILENAME = "llms.txt";
 
 export interface LLMSTxtSection {
 	title: string;
@@ -21,7 +21,7 @@ export interface PluginOptions {
 	/**
 	 * The path where the files will be written.
 	 * Function that takes the current mdx file path as argument.
-	 * Or `LLMS_TXT_OUTPUT_DIR_INPUT` for the llms.txt file.
+	 * Or `LLMS_TXT_FILENAME` for the llms.txt file.
 	 * Return `null` to ignore the file.
 	 * */
 	outputPath: (path: string) => string | null;
@@ -109,7 +109,7 @@ export function generateMarkdownFiles(options: PluginOptions) {
 
 export function generateLlmsTxt(options: PluginOptions) {
 	const { outputPath, sections } = options;
-	const outputPathResult = outputPath(LLMS_TXT_OUTPUT_DIR_INPUT);
+	const outputPathResult = outputPath(LLMS_TXT_FILENAME);
 	if (outputPathResult == null) {
 		return;
 	}
