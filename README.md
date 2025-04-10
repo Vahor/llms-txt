@@ -20,13 +20,13 @@ Example with [contentlayer](https://github.com/timlrx/contentlayer2) but you can
 import { allDocuments } from "contentlayer/generated";
 import {
 	generate,
-	LLMS_TXT_OUTPUT_DIR_INPUT,
+	LLMS_TXT_FILENAME,
 	type PluginOptions,
 } from "@vahor/llms-txt";
 
 const options = {
 	outputPath: (path) => {
-		if (path === LLMS_TXT_OUTPUT_DIR_INPUT) {
+		if (path === LLMS_TXT_FILENAME) {
 			return "./public/llms.txt";
 		}
 		// path is "./content/posts/[slug].mdx"
