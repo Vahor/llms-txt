@@ -1,6 +1,6 @@
 # llms-txt
 
-[![Code quality](https://github.com/Vahor/rehype-d2/actions/workflows/quality.yml/badge.svg)](https://github.com/Vahor/llms-txt/actions/workflows/quality.yml)
+[![Code quality](https://github.com/Vahor/llms-txt/actions/workflows/quality.yml/badge.svg)](https://github.com/Vahor/llms-txt/actions/workflows/quality.yml)
 [![npm downloads](https://img.shields.io/npm/dm/%40vahor%2Fllms-txt)](https://www.npmjs.com/package/@vahor/llms-txt)
 
 
