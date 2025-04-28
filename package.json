@@ -29,7 +29,7 @@
 		"bun-plugin-dts": "^0.3.0",
 		"husky": "^9.1.7",
 		"lint-staged": "^15.5.0",
-		"pkg-pr-new": "^0.0.42",
+		"pkg-pr-new": "^0.0.43",
 		"unist-util-visit": "^5.0.0"
 	},
 	"peerDependencies": {
