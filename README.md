@@ -120,7 +120,11 @@ tldr: [https://github.com/Vahor/rehype-d2](https://github.com/Vahor/rehype-d2)
 
 - `remarkPlugins`: Array of remark plugins to transform markdown content.
   - See [Unified.js guide](https://unifiedjs.com/learn/guide/) for more information.
+  - Each plugin function is called with the following arguments:
+     - `frontmatter`: The frontmatter of the current file. (Same input as `formatFrontmatter`)
   - Optional parameter.
+
+Check examples in [tests files](/tests/index.test.ts).
 
 # Who is using this?
 

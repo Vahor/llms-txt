@@ -117,3 +117,35 @@ console.log("Hello, world!");
   },
 ]
 `;
+
+exports[`generate markdown files should transform using remarkPlugins with frontmatter 1`] = `
+[
+  {
+    "type": "return",
+    "value": 
+"---
+title: Test
+description: Test description
+sidebar:
+  order: 1
+  title: Custom sidebar title
+---
+
+# Test
+
+Some content we want to transform.
+
+Test
+
+***
+
+## title: This should not be replaced
+
+\`\`\`js
+console.log("Hello, world!");
+\`\`\`
+"
+,
+  },
+]
+`;

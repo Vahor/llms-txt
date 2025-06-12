@@ -26,7 +26,7 @@ const options = {
 		}),
 		// @ts-expect-error
 		readFileSync: mock((path, encoding) => {
-			return fs.readFileSync(path, "utf-8");
+			return fs.readFileSync(path, encoding);
 		}),
 	},
 	sections: [
@@ -147,6 +147,38 @@ describe("generate markdown files", () => {
 		expect(options.fs.writeFileSync).toHaveBeenCalledWith(
 			"/out/tests/example-content.mdx",
 			expect.stringContaining("NICE\\_TRANSFORMATION"),
+		);
+		expect(options.fs.writeFileSync.mock.results).toMatchSnapshot();
+	});
+
+	test("should transform using remarkPlugins with frontmatter", () => {
+		function remarkAddPrefix({
+			frontmatter,
+		}: { frontmatter: Record<string, unknown> }) {
+			// biome-ignore lint/suspicious/noExplicitAny: don't care
+			return (tree: any) => {
+				visit(tree, "paragraph", (node) => {
+					const text = node.children[0].value;
+					if (text === "TRANSFORM_THIS") {
+						node.children[0].value = frontmatter.title;
+					}
+					return node;
+				});
+				return tree;
+			};
+		}
+
+		// @ts-expect-error
+		generate({
+			...options,
+			outputPath: disableLlmsOutputPath,
+			remarkPlugins: [remarkAddPrefix],
+		});
+		expect(options.fs.writeFileSync).toHaveBeenCalledTimes(1);
+		expect(options.fs.writeFileSync).toHaveBeenCalledWith(
+			"/out/tests/example-content.mdx",
+			// TODO: not hardcode this
+			expect.stringContaining("Test"),
 		);
 		expect(options.fs.writeFileSync.mock.results).toMatchSnapshot();
 	});
