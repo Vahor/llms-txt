@@ -54,6 +54,9 @@ export interface PluginOptions {
 	/**
 	 * Plugins to transform the markdown content.
 	 * See [https://unifiedjs.com/learn/guide/](https://unifiedjs.com/learn/guide/)
+	 *
+	 * Each plugin function is called with the following arguments:
+	 * - `frontmatter`: The frontmatter of the current file. (Same input as `formatFrontmatter`)
 	 */
 	remarkPlugins?: Pluggable[];
 }
@@ -87,13 +90,19 @@ export function generateMarkdownFiles(options: PluginOptions) {
 			continue;
 		}
 		const raw = fs.readFileSync(contentPath, "utf-8");
-		const frontmatter = formatFrontmatter(extractFrontmatter(raw));
+		const rawFrontmatter = extractFrontmatter(raw);
+		const frontmatter = formatFrontmatter(rawFrontmatter);
 		let markdown = removeFrontmatter(raw);
 
 		if (remarkPlugins) {
+			const pluginsWithFrontmatter = remarkPlugins.map((plugin) => [
+				plugin,
+				{ frontmatter: rawFrontmatter },
+			]);
 			const processor = unified()
 				.use(remarkParse)
-				.use(remarkPlugins)
+				// @ts-expect-error TODO: fix types
+				.use(pluginsWithFrontmatter)
 				.use(remarkStringify);
 			const result = processor.processSync(markdown);
 			markdown = result.toString();
