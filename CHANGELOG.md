@@ -1,5 +1,11 @@
 # @vahor/llms-txt
 
+## 0.1.0
+
+### Minor Changes
+
+- [#18](https://github.com/Vahor/llms-txt/pull/18) [`9ad5b5d`](https://github.com/Vahor/llms-txt/commit/9ad5b5dc129ff6f41380dcd4d0c11964ef1b612a) Thanks [@Vahor](https://github.com/Vahor)! - pass frontmatter value in remark plugins param
+
 ## 0.0.2
 
 ### Patch Changes
