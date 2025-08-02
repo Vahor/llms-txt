@@ -3,10 +3,12 @@ import fs from "node:fs";
 // Test dependencies
 import { visit } from "unist-util-visit";
 import {
+	generate,
 	LLMS_TXT_FILENAME,
 	type PluginOptions,
-	generate,
 } from "../src/index.ts";
+
+const writeFileSyncOpts = { encoding: "utf-8" };
 
 const disableLlmsOutputPath = (path: string | null) => {
 	if (path === LLMS_TXT_FILENAME) {
@@ -18,7 +20,7 @@ const disableLlmsOutputPath = (path: string | null) => {
 const options = {
 	outputPath: (path) => `/out/${path}`,
 	fs: {
-		writeFileSync: mock((path, content) => {
+		writeFileSync: mock((_path, content, _opts) => {
 			return content;
 		}),
 		mkdirSync: mock((path) => {
@@ -75,6 +77,7 @@ describe("generate llms.txt", () => {
 		expect(options.fs.writeFileSync).toHaveBeenCalledWith(
 			"/out/llms.txt",
 			expect.stringContaining("# Test"),
+			writeFileSyncOpts,
 		);
 		expect(options.fs.writeFileSync.mock.results).toMatchSnapshot();
 	});
@@ -110,6 +113,7 @@ describe("generate markdown files", () => {
 		expect(options.fs.writeFileSync).toHaveBeenCalledWith(
 			"/out/tests/example-content.mdx",
 			expect.stringContaining("# Test"),
+			writeFileSyncOpts,
 		);
 		expect(options.fs.writeFileSync.mock.results).toMatchSnapshot();
 	});
@@ -124,7 +128,6 @@ describe("generate markdown files", () => {
 	});
 	test("should transform using remarkPlugins", () => {
 		function remarkAddPrefix() {
-			// biome-ignore lint/suspicious/noExplicitAny: don't care
 			return (tree: any) => {
 				visit(tree, "paragraph", (node) => {
 					const text = node.children[0].value;
@@ -147,6 +150,7 @@ describe("generate markdown files", () => {
 		expect(options.fs.writeFileSync).toHaveBeenCalledWith(
 			"/out/tests/example-content.mdx",
 			expect.stringContaining("NICE\\_TRANSFORMATION"),
+			writeFileSyncOpts,
 		);
 		expect(options.fs.writeFileSync.mock.results).toMatchSnapshot();
 	});
@@ -154,8 +158,9 @@ describe("generate markdown files", () => {
 	test("should transform using remarkPlugins with frontmatter", () => {
 		function remarkAddPrefix({
 			frontmatter,
-		}: { frontmatter: Record<string, unknown> }) {
-			// biome-ignore lint/suspicious/noExplicitAny: don't care
+		}: {
+			frontmatter: Record<string, unknown>;
+		}) {
 			return (tree: any) => {
 				visit(tree, "paragraph", (node) => {
 					const text = node.children[0].value;
@@ -179,6 +184,7 @@ describe("generate markdown files", () => {
 			"/out/tests/example-content.mdx",
 			// TODO: not hardcode this
 			expect.stringContaining("Test"),
+			writeFileSyncOpts,
 		);
 		expect(options.fs.writeFileSync.mock.results).toMatchSnapshot();
 	});
