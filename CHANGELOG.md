@@ -1,5 +1,11 @@
 # @vahor/llms-txt
 
+## 0.1.1
+
+### Patch Changes
+
+- [#31](https://github.com/Vahor/llms-txt/pull/31) [`3bdae30`](https://github.com/Vahor/llms-txt/commit/3bdae307cf7c18360d0286dbe8bb8ec2c10949cf) Thanks [@Vahor](https://github.com/Vahor)! - update deps
+
 ## 0.1.0
 
 ### Minor Changes
