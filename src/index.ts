@@ -112,7 +112,7 @@ export function generateMarkdownFiles(options: PluginOptions) {
 
 		const dirname = path.dirname(outputPathResult);
 		fs.mkdirSync(dirname, { recursive: true });
-		fs.writeFileSync(outputPathResult, markdown);
+		fs.writeFileSync(outputPathResult, markdown, { encoding: "utf-8" });
 	}
 }
 
@@ -163,7 +163,7 @@ export function generateLlmsTxt(options: PluginOptions) {
 	const dirname = path.dirname(outputPathResult);
 	const fs = getFs(options);
 	fs.mkdirSync(dirname, { recursive: true });
-	fs.writeFileSync(outputPathResult, llmsTxt);
+	fs.writeFileSync(outputPathResult, llmsTxt, { encoding: "utf-8" });
 }
 
 function getFs(options: PluginOptions): NonNullable<PluginOptions["fs"]> {
