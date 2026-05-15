@@ -1,5 +1,11 @@
 # @vahor/llms-txt
 
+## 0.2.0
+
+### Minor Changes
+
+- [#59](https://github.com/Vahor/llms-txt/pull/59) [`9100391`](https://github.com/Vahor/llms-txt/commit/9100391430bc82fe96e232c9444e55d8414de08f) Thanks [@Vahor](https://github.com/Vahor)! - Pass the current content file path as the second parameter to `formatFrontmatter`.
+
 ## 0.1.1
 
 ### Patch Changes
