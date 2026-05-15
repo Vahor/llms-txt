@@ -34,9 +34,10 @@ const options = {
 		const withoutExtension = slug.split(".").slice(0, -1).join(".");
 		return `./public/${withoutExtension}.md`;
 	},
-	formatFrontmatter: (frontmatter) => ({
+	formatFrontmatter: (frontmatter, path) => ({
 		title: frontmatter.title,
 		description: frontmatter.description,
+		path,
 	}),
 	sections: [
 		{
@@ -108,6 +109,7 @@ tldr: [https://github.com/Vahor/rehype-d2](https://github.com/Vahor/rehype-d2)
   - Defaults to Node's built-in `fs` module if not provided.
 
 - `formatFrontmatter`: Function to filter or transform frontmatter properties before writing to `.md` files.
+  - Called with `(frontmatter, path)`, where `path` is the current content file path.
   - Defaults to an identity function if not provided.
 
 - `content`: Array of content paths to process.
