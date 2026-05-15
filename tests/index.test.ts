@@ -117,6 +117,31 @@ describe("generate markdown files", () => {
 		);
 		expect(options.fs.writeFileSync.mock.results).toMatchSnapshot();
 	});
+
+	test("should pass content path to formatFrontmatter", () => {
+		const formatFrontmatter = mock(
+			(frontmatter: Record<string, unknown>, path: string) => ({
+				...frontmatter,
+				path,
+			}),
+		);
+
+		// @ts-expect-error
+		generate({
+			...options,
+			outputPath: disableLlmsOutputPath,
+			formatFrontmatter,
+		});
+		expect(formatFrontmatter).toHaveBeenCalledWith(
+			expect.objectContaining({ title: "Test" }),
+			"tests/example-content.mdx",
+		);
+		expect(options.fs.writeFileSync).toHaveBeenCalledWith(
+			"/out/tests/example-content.mdx",
+			expect.stringContaining("path: tests/example-content.mdx"),
+			writeFileSyncOpts,
+		);
+	});
 	test("should skip markdown files generation", () => {
 		// @ts-expect-error
 		generate({

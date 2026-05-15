@@ -37,10 +37,12 @@ export interface PluginOptions {
 
 	/**
 	 * Function to filter frontmatter properties before they are written to the `.md` file.
+	 * Receives the current file path as the second argument.
 	 * @default (property) => property
 	 */
 	formatFrontmatter?: (
 		frontmatter: Record<string, unknown>,
+		path: string,
 	) => Record<string, unknown>;
 
 	content: { path: string }[];
@@ -91,7 +93,7 @@ export function generateMarkdownFiles(options: PluginOptions) {
 		}
 		const raw = fs.readFileSync(contentPath, "utf-8");
 		const rawFrontmatter = extractFrontmatter(raw);
-		const frontmatter = formatFrontmatter(rawFrontmatter);
+		const frontmatter = formatFrontmatter(rawFrontmatter, contentPath);
 		let markdown = removeFrontmatter(raw);
 
 		if (remarkPlugins) {
