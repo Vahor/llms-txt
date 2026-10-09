@@ -18,7 +18,7 @@
         "bun-plugin-dts": "^0.4.0",
         "husky": "^9.1.7",
         "lint-staged": "^17.0.4",
-        "pkg-pr-new": "^0.0.72",
+        "pkg-pr-new": "^0.0.91",
         "typescript": "^6.0.3",
         "unist-util-visit": "^5.1.0",
       },
@@ -333,7 +333,7 @@
 
     "pify": ["pify@4.0.1", "", {}, "sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g=="],
 
-    "pkg-pr-new": ["pkg-pr-new@0.0.72", "", { "bin": { "pkg-pr-new": "bin/cli.js" } }, "sha512-tp/Z6jjxJz+HIZOXEkPnxgNRntd5wIB/wgoShZYkLGr90zmkHoNfTYCnX1KZrx/90e3KSapyItuxzipdHHrrsQ=="],
+    "pkg-pr-new": ["pkg-pr-new@0.0.91", "", { "bin": { "pkg-pr-new": "bin/cli.js" } }, "sha512-FQPmjspKRKYV4MlHQnun9snJqlYm6Yhmo12x1O3pgE2Akim/y/BZjMOppK//BFdh222WOj6WGqlmeZfrtUtfgQ=="],
 
     "prettier": ["prettier@2.8.8", "", { "bin": { "prettier": "bin-prettier.js" } }, "sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q=="],
 
